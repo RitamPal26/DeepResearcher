@@ -2,13 +2,16 @@ import React, { useState, useRef, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import "./App.css";
 
-import config from './config';
+import config from "./config";
 
 // --- Interfaces for TypeScript ---
 interface SourceDocument {
   content: string;
-  page: number;
+  page?: number | null; // Make it optional
+  chunk_id?: number;
+  source?: string;
 }
+
 interface Message {
   sender: "user" | "ai";
   text: string;
@@ -93,6 +96,7 @@ const UserAvatar: React.FC = () => (
 const Sources: React.FC<{ documents: SourceDocument[] }> = ({ documents }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   if (!documents || documents.length === 0) return null;
+
   return (
     <div className="sources-container">
       <button onClick={() => setIsOpen(!isOpen)} className="sources-button">
@@ -103,7 +107,13 @@ const Sources: React.FC<{ documents: SourceDocument[] }> = ({ documents }) => {
           {documents.map((doc, index) => (
             <div key={index} className="source-item">
               <p>
-                <strong>Source {index + 1}</strong> (Page {doc.page + 1})
+                <strong>Source {index + 1}</strong>
+                {doc.page && (
+                  <span>
+                    {" "}
+                    (Page {typeof doc.page === "number" ? doc.page : "N/A"})
+                  </span>
+                )}
               </p>
               <p className="source-quote">
                 "{doc.content.substring(0, 150)}..."
