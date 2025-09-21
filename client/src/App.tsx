@@ -2,6 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import "./App.css";
 
+import config from './config';
+
+const API_URL = config.API_URL;
+
 // --- Interfaces for TypeScript ---
 interface SourceDocument {
   content: string;

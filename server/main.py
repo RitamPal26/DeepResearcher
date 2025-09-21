@@ -136,9 +136,13 @@ app = FastAPI(
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:5173",  # Local development
+        "https://deep-researcher-five.vercel.app/",  # Your Vercel URL
+        "https://*.vercel.app"  # Any Vercel preview deployments
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
 )
 
@@ -652,4 +656,5 @@ async def health_check():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info")
+    port = int(os.environ.get("PORT", 8000))  # Use Railway's PORT or default to 8000
+    uvicorn.run(app, host="0.0.0.0", port=port)
