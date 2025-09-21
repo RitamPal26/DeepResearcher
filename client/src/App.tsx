@@ -4,8 +4,6 @@ import "./App.css";
 
 import config from './config';
 
-const API_URL = config.API_URL;
-
 // --- Interfaces for TypeScript ---
 interface SourceDocument {
   content: string;
@@ -129,7 +127,7 @@ function App() {
   const [currentQuery, setCurrentQuery] = useState<string>("");
 
   const chatEndRef = useRef<HTMLDivElement>(null);
-  const API_URL = "http://127.0.0.1:8000";
+  const API_URL = config.API_URL;
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
