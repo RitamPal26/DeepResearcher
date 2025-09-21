@@ -117,7 +117,7 @@ async def cleanup_old_documents():
 async def lifespan(app: FastAPI):
     # Startup
     logger.info("Starting Deep Researcher Agent API")
-    await pre_warm_model()
+    # await pre_warm_model()
     cleanup_task = asyncio.create_task(cleanup_old_documents())
     yield
     # Shutdown
@@ -138,12 +138,12 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",  # Local development
-        "https://deep-researcher-five.vercel.app/",  # Your Vercel URL
-        "https://*.vercel.app"  # Any Vercel preview deployments
+        "https://deep-researcher-five.vercel.app",  # ✅ EXACT Vercel URL
+        "https://*.vercel.app",  # Preview deployments
     ],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE"],
-    allow_headers=["*"],
+    allow_methods=["*"],  # Allow all methods including OPTIONS
+    allow_headers=["*"],  # Allow all headers
 )
 
 # Global exception handler for debugging

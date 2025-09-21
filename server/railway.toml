@@ -1,8 +1,18 @@
 [build]
 builder = "NIXPACKS"
+nixpacksVersion = "1.21.0"
+
+[build.environment]
+NIXPACKS_PYTHON_VERSION = "3.11"
+PIP_CACHE_DIR = "/tmp/pip-cache"
+PYTHONUNBUFFERED = "1"
 
 [deploy]
-startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT"
+startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT --workers 1"
 healthcheckPath = "/health"
-healthcheckTimeout = 100
+healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
+
+# Request longer build timeout
+[build.variables]
+RAILWAY_BUILD_TIMEOUT = "1800"  # 30 minutes
