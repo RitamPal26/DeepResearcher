@@ -65,7 +65,7 @@ def get_optimized_embeddings():
     if _embeddings_instance is None:
         try:
             _embeddings_instance = HuggingFaceEmbeddings(
-                model_name="sentence-transformers/all-MiniLM-L6-v2",
+                model_name="BAAI/bge-small-en-v1.5",
                 model_kwargs={'device': 'cpu'},
                 encode_kwargs={'normalize_embeddings': True}
             )
@@ -134,16 +134,18 @@ app = FastAPI(
 )
 
 # Configure CORS
+# Replace your current CORS configuration with this:
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",  # Local development
-        "https://deep-researcher-five.vercel.app",  # ✅ EXACT Vercel URL
-        "https://*.vercel.app",  # Preview deployments
+        "http://localhost:3000",   # Alternative local port
+        "https://deep-researcher-five.vercel.app",  # Production URL
+        # Add specific preview URLs if needed
     ],
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods including OPTIONS
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["*"],
 )
 
 # Global exception handler for debugging
